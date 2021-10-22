@@ -25,6 +25,26 @@ export interface PokemonResolve {
 
   tipos: SchemaDefinitionProperty<string[]>;
 }
+
+export interface PokemonSingle {
+  id: number;
+  altura: number;
+  peso: number;
+  imagen: string;
+  nombre: string;
+  descripcion: string;
+  tipos: SchemaDefinitionProperty<string[]>;
+  debilidades: SchemaDefinitionProperty<string[]>;
+  generacion: number;
+  estadisticas: {
+    PS: number;
+    Ataque: number;
+    Defensa: number;
+    Ataque_Especial: number;
+    Defensa_Especial: number;
+    Velocidad: number;
+  };
+}
 export interface PokemonFilter {
   readonly type: string;
   readonly weakness: string;

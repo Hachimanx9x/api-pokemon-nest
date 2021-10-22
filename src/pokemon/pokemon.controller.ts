@@ -9,7 +9,11 @@ import {
 } from '@nestjs/common';
 import { SearchPokemonDTO } from './dto/pokemon.dto';
 import { PokemonService } from './pokemon.service';
-import { PokemonResolve, Pokemon } from './interfaces/pokemon.interface';
+import {
+  PokemonResolve,
+  Pokemon,
+  PokemonSingle,
+} from './interfaces/pokemon.interface';
 @Controller('pokemon')
 export class PokemonController {
   constructor(private pokemonService: PokemonService) {}
@@ -43,9 +47,15 @@ export class PokemonController {
     const numPokemon: number = parseInt(id, 10);
     const pokemon = await this.pokemonService.getPokemon(numPokemon);
 
+    const resultPokemon: PokemonSingle = {
+      ...pokemon,
+      imagen: `${
+        process.env.HOST || 'http://localhost:3030'
+      }/image?id=${numPokemon}`,
+    };
     return res.status(HttpStatus.OK).json({
       status: 'success',
-      pokemons: pokemon,
+      pokemons: resultPokemon,
     });
   }
   @Get('/next')
