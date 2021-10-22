@@ -33,6 +33,21 @@ export class PokemonController {
     return dataResult;
   }
 
+  filterSingle(data: Pokemon): PokemonSingle {
+    return {
+      id: data.id,
+      imagen: `${process.env.HOST || 'http://localhost:3030'}/img/${data.id}`,
+      altura: data.altura,
+      peso: data.peso,
+      nombre: data.nombre,
+      descripcion: data.descripcion,
+      tipos: data.tipos,
+      debilidades: data.debilidades,
+      generacion: data.generacion,
+      estadisticas: data.estadisticas,
+    };
+  }
+
   @Get('/')
   async createGet(@Res() res) {
     const pokemon = await this.pokemonService.getPokemonDefault();
@@ -47,12 +62,7 @@ export class PokemonController {
     const numPokemon: number = parseInt(id, 10);
     const pokemon = await this.pokemonService.getPokemon(numPokemon);
 
-    const resultPokemon: PokemonSingle = {
-      ...pokemon,
-      imagen: `${
-        process.env.HOST || 'http://localhost:3030'
-      }/image?id=${numPokemon}`,
-    };
+    const resultPokemon: PokemonSingle = this.filterSingle(pokemon);
     return res.status(HttpStatus.OK).json({
       status: 'success',
       pokemons: resultPokemon,
