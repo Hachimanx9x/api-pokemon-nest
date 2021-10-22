@@ -36,7 +36,9 @@ export class PokemonController {
   filterSingle(data: Pokemon): PokemonSingle {
     return {
       id: data.id,
-      imagen: `${process.env.HOST || 'http://localhost:3030'}/img/${data.id}`,
+      imagen: `${process.env.HOST || 'http://localhost:3030'}/image?id=${
+        data.id
+      }`,
       altura: data.altura,
       peso: data.peso,
       nombre: data.nombre,
